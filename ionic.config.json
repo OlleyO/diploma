@@ -1,0 +1,7 @@
+{
+  "name": "vite-vue-cap",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}
