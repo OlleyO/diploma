@@ -42,6 +42,7 @@ import { CameraSampleOptions } from '@capacitor-community/camera-preview';
 import { onMounted, ref } from 'vue';
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
+const interval = ref<NodeJS.Timer | null>(null)
 
 const cameraPreviewOptions: CameraPreviewOptions = {
   position: 'front',
@@ -59,11 +60,17 @@ const cameraSampleOptions: CameraSampleOptions = {
 
 
 function startCamera() {
-  CameraPreview.start(cameraPreviewOptions);
+  CameraPreview.start(cameraPreviewOptions).then(() => {
+    runCoco()
+  });
 }
 
 function stopCamera() {
-  CameraPreview.stop();
+  CameraPreview.stop().then(() => {
+    if(interval.value) {
+      clearInterval(interval.value)
+    }
+  });
 }
 
 function flipCamera() {
@@ -74,7 +81,7 @@ async function runCoco() {
   const net = await tf.loadGraphModel('https://tensorflowjsrealtimemodel.s3.au-syd.cloud-object-storage.appdomain.cloud/model.json')
 
   //  Loop and detect hands
-  setInterval(() => {
+  interval.value = setInterval(() => {
     detect(net);
   }, 16.7);
 }
