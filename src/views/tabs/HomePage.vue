@@ -9,16 +9,30 @@
     </ion-header>
     <ion-content class="ion-padding my-custom-camera-preview-content">
       <canvas ref="canvasRef"
-      style="position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; text-align: center; z-index: 8; width: 640; height: 480;" />
-      <ion-button expand="block" @click="startCamera">Run Camera</ion-button>
-      <ion-button expand="block" @click="stopCamera">Stop Camera</ion-button>
-      <ion-button expand="block" @click="flipCamera">Run Camera</ion-button>
+        style="position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; text-align: center; z-index: 8; width: 640; height: 480;" />
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button>
+          <ion-icon :icon="chevronUpCircle"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+          <ion-fab-button @click="startCamera">
+            <ion-icon :icon="videocamOutline"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button @click="flipCamera">
+            <ion-icon :icon="cameraReverseOutline"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button @click="stopCamera">
+            <ion-icon :icon="videocamOffOutline"></ion-icon>
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts" setup>
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage } from '@ionic/vue';
+import { videocamOutline, chevronUpCircle, videocamOffOutline, cameraReverseOutline } from 'ionicons/icons';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonFab, IonFabButton, IonIcon } from '@ionic/vue';
 import * as tf from "@tensorflow/tfjs";
 // import { nextFrame } from "@tensorflow/tfjs";
 import { drawRect } from "../../utils/index";
