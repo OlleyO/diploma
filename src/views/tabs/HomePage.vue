@@ -17,7 +17,7 @@
   </ion-page>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage } from '@ionic/vue';
 import * as tf from "@tensorflow/tfjs";
 import { nextFrame } from "@tensorflow/tfjs";
@@ -27,16 +27,16 @@ import { CameraPreview, CameraPreviewOptions } from '@capacitor-community/camera
 import { CameraSampleOptions } from '@capacitor-community/camera-preview';
 import { onMounted, ref } from 'vue';
 
-const canvasRef = ref<HTMLCanvasElement | null>(null)
+const canvasRef = ref(null)
 
-const cameraPreviewOptions: CameraPreviewOptions = {
+const cameraPreviewOptions = {
   position: 'front',
   height: 500,
   width: 320
 }
 
 
-const cameraSampleOptions: CameraSampleOptions = {
+const cameraSampleOptions = {
   quality: 85
 };
 
@@ -74,7 +74,7 @@ async function runCoco() {
 //     return bytes.buffer;
 // }
 
-function base64ToImage(base64img: string) {
+function base64ToImage(base64img) {
   const img = new Image();
   img.src = base64img;
 
@@ -99,7 +99,7 @@ async function detect(net) {
 
   console.log(boxes, classes, scores)
 
-  const ctx = canvasRef.value!.getContext('2d')
+  const ctx = canvasRef.value.getContext('2d')
 
   requestAnimationFrame(() => {
     drawRect(boxes[0], classes[0], scores[0], 0.8, cameraPreviewOptions.width, cameraPreviewOptions.height, ctx)
