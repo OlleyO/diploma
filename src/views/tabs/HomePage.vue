@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { videocamOutline, chevronUpCircle, videocamOffOutline, cameraReverseOutline } from 'ionicons/icons';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonFab, IonFabButton, IonIcon } from '@ionic/vue';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonFab, IonFabButton, IonIcon, IonFabList } from '@ionic/vue';
 import * as tf from "@tensorflow/tfjs";
 // import { nextFrame } from "@tensorflow/tfjs";
 import { drawRect } from "../../utils/index";
@@ -43,6 +43,7 @@ import { onMounted, ref } from 'vue';
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const interval = ref<NodeJS.Timer | null>(null)
+const objRef = ref<any>(null)
 
 const cameraPreviewOptions: CameraPreviewOptions = {
   position: 'front',
@@ -86,15 +87,6 @@ async function runCoco() {
   }, 16.7);
 }
 
-// function base64ToArrayBuffer(base64) {
-//     var binaryString = atob(base64);
-//     var bytes = new Uint8Array(binaryString.length);
-//     for (var i = 0; i < binaryString.length; i++) {
-//         bytes[i] = binaryString.charCodeAt(i);
-//     }
-//     return bytes.buffer;
-// }
-
 function base64ToImage(base64img: string) {
   const img = new Image();
   img.src = base64img;
@@ -112,6 +104,9 @@ async function detect(net: tf.GraphModel<string | tf.io.IOHandler>) {
   const expanded = casted.expandDims(0)
   const obj = await net.executeAsync(expanded)
 
+  objRef.value = obj
+
+  console.log('object')
   console.log(obj)
 
   const boxes = await (obj as any)[1].array()
