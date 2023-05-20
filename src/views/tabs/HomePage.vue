@@ -21,7 +21,7 @@
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage } from '@ionic/vue';
 import * as tf from "@tensorflow/tfjs";
 import { nextFrame } from "@tensorflow/tfjs";
-import { drawRect } from "./utilities";
+import { drawRect } from "../../utils/index";
 
 import { CameraPreview, CameraPreviewOptions } from '@capacitor-community/camera-preview';
 import { CameraSampleOptions } from '@capacitor-community/camera-preview';
