@@ -8,4 +8,8 @@ import { IonApp, IonRouterOutlet } from '@ionic/vue';
   </ion-app>
 </template>
 
-<style scoped></style>
+<style>
+#app {
+  background-color: transparent !important;
+}
+</style>
