@@ -17,26 +17,26 @@
   </ion-page>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage } from '@ionic/vue';
 import * as tf from "@tensorflow/tfjs";
-import { nextFrame } from "@tensorflow/tfjs";
+// import { nextFrame } from "@tensorflow/tfjs";
 import { drawRect } from "../../utils/index";
 
 import { CameraPreview, CameraPreviewOptions } from '@capacitor-community/camera-preview';
 import { CameraSampleOptions } from '@capacitor-community/camera-preview';
 import { onMounted, ref } from 'vue';
 
-const canvasRef = ref(null)
+const canvasRef = ref<HTMLCanvasElement | null>(null)
 
-const cameraPreviewOptions = {
+const cameraPreviewOptions: CameraPreviewOptions = {
   position: 'front',
   height: 500,
   width: 320
 }
 
 
-const cameraSampleOptions = {
+const cameraSampleOptions: CameraSampleOptions = {
   quality: 85
 };
 
@@ -74,14 +74,14 @@ async function runCoco() {
 //     return bytes.buffer;
 // }
 
-function base64ToImage(base64img) {
+function base64ToImage(base64img: string) {
   const img = new Image();
   img.src = base64img;
 
   return img
 }
 
-async function detect(net) {
+async function detect(net: tf.GraphModel<string | tf.io.IOHandler>) {
   const result = await CameraPreview.captureSample(cameraSampleOptions);
   const base64PictureData = result.value;
   const img = tf.browser.fromPixels(base64ToImage(base64PictureData))
@@ -93,13 +93,13 @@ async function detect(net) {
 
   console.log(obj)
 
-  const boxes = await obj[1].array()
-  const classes = await obj[2].array()
-  const scores = await obj[4].array()
+  const boxes = await (obj as any)[1].array()
+  const classes = await (obj as any).array()
+  const scores = await (obj as any)[4].array()
 
   console.log(boxes, classes, scores)
 
-  const ctx = canvasRef.value.getContext('2d')
+  const ctx = canvasRef.value!.getContext('2d')
 
   requestAnimationFrame(() => {
     drawRect(boxes[0], classes[0], scores[0], 0.8, cameraPreviewOptions.width, cameraPreviewOptions.height, ctx)

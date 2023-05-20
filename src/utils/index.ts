@@ -1,5 +1,7 @@
 // Define our labelmap
-const labelMap = {
+const labelMap: {
+  [key: number]: {name: string; color: string}
+} = {
   1:{name:'Hello', color:'red'},
   2:{name:'Thank You', color:'yellow'},
   3:{name:'I Love You', color:'lime'},
@@ -8,7 +10,7 @@ const labelMap = {
 }
 
 // Define a drawing function
-export const drawRect = (boxes, classes, scores, threshold, imgWidth, imgHeight, ctx)=>{
+export const drawRect = (boxes: any, classes: any, scores: any, threshold: any, imgWidth: any, imgHeight: any, ctx: any)=>{
   for(let i=0; i<=boxes.length; i++){
       if(boxes[i] && classes[i] && scores[i]>threshold){
           // Extract variables
